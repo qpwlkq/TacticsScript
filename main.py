@@ -25,7 +25,7 @@ def on_click(x, y, button):
 
 def room_start():
     global INGAME
-    picture = auto.locateOnScreen('assert/roomStartTag.bmp')
+    picture = auto.locateOnScreen('assert/roomStart.png')
     if picture is not None:
         INGAME = 0
         print("点击寻找对局")
@@ -49,7 +49,7 @@ def draft_stage(stage):
 
 
 def room_end():
-    picture = auto.locateOnScreen('assert/roomEndTag.bmp')
+    picture = auto.locateOnScreen('assert/roomEnd.png')
     if picture is not None:
         print("点击再来一盘")
         auto.moveTo(picture)
