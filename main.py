@@ -3,130 +3,118 @@ import pyautogui as auto
 import random
 
 
-
 TIMES = 0
+ROOMSTART = 0
+ROOMACCEPT = 0
+STAGE1_1 = 0
+STAGE2_4 = 0
+INGAME = 0
 
-def game(i):
+def clear_par():
+    global TIMES
+    TIMES += 1
+    print("已完成 " + str(TIMES) + ' 局')
 
-    picture = auto.locateOnScreen('roomStartTag.bmp')
+
+def on_click(x, y, button):
+    auto.mouseDown(x=x, y=y, button=button)
+    auto.mouseUp(x=x, y=y, button=button, duration=1)
+    auto.mouseDown(x=x, y=y, button=button)
+    auto.mouseUp(x=x, y=y, button=button, duration=1)
+
+
+def room_start():
+    global INGAME
+    picture = auto.locateOnScreen('assert/roomStartTag.bmp')
     if picture is not None:
+        INGAME = 0
         print("点击寻找对局")
         auto.moveTo(picture)
         auto.click(clicks=2, interval=1)
 
-    auto.mouseDown(x=952, y=715, button='left')
-    auto.mouseUp(x=952, y=715, button='left', duration=1)
-    auto.mouseDown(x=952, y=715, button='left')
-    auto.mouseUp(x=952, y=715, button='left', duration=1)
 
-    picture = auto.locateOnScreen('1-1Tag.bmp')
+def room_accept():
+    on_click(952, 715, 'left')
+
+
+def draft_stage(stage):
+    global INGAME
+    picture = auto.locateOnScreen(stage)
     if picture is not None:
+        INGAME = 1
         x = random.randint(800, 1300)
         y = random.randint(200, 700)
+        on_click(x, y, 'right')
         print("走走 " + str(x) + " " + str(y))
-        auto.mouseDown(x=x, y=y, button='right')
-        auto.mouseUp(x=x, y=y, button='right', duration=1)
-
-    picture = auto.locateOnScreen('2-4Tag.bmp')
-    if picture is not None:
-        x = random.randint(800, 1300)
-        y = random.randint(200, 700)
-        print("走走 " + str(x) + " " + str(y))
-        auto.mouseDown(x=x, y=y, button='right')
-        auto.mouseUp(x=x, y=y, button='right', duration=1)
 
 
-    picture = auto.locateOnScreen('roomEndTag.bmp')
+def room_end():
+    picture = auto.locateOnScreen('assert/roomEndTag.bmp')
     if picture is not None:
         print("点击再来一盘")
         auto.moveTo(picture)
         auto.click(clicks=2, interval=1)
-        global TIMES
-        TIMES += 1
-        print("已完成-----------" + str(TIMES))
+        clear_par()
 
 
-
-
-
-
-    picture = auto.locateOnScreen('3-4Tag.bmp')
+def ff_stage(stage):
+    global INGAME
+    picture = auto.locateOnScreen(stage)
     if picture is not None:
         print("准备认输")
-        auto.mouseDown(x=1902, y=851, button='left')
-        auto.mouseUp(x=1902, y=851, button='left', duration=1)
-        auto.mouseDown(x=1902, y=851, button='left')
-        auto.mouseUp(x=1902, y=851, button='left', duration=1)
-        time.sleep(2)
-        auto.mouseDown(x=759, y=856, button='left')
-        auto.mouseUp(x=759, y=856, button='left', duration=1)
-        auto.mouseDown(x=759, y=856, button='left')
-        auto.mouseUp(x=759, y=856, button='left', duration=1)
-        time.sleep(2)
-        auto.mouseDown(x=856, y=476, button='left')
-        auto.mouseUp(x=856, y=476, button='left', duration=1)
-        auto.mouseDown(x=856, y=476, button='left')
-        auto.mouseUp(x=856, y=476, button='left', duration=1)
-        time.sleep(2)
+        on_click(1902, 851, 'left')
+        on_click(759, 856, 'left')
+        on_click(856, 476, 'left')
+        INGAME = 0
 
 
+def in_game_stage(i):
+    global INGAME
 
-
-    picture = auto.locateOnScreen('inGameTag.bmp')
+    picture = auto.locateOnScreen('assert/inGameTag.bmp')
     if picture is not None:
-
-        if i % 5 == 3:
+        INGAME = 1
+        if i % 20 == 3:
             print("升级")
-            auto.press('f')
-            time.sleep(1)
+            on_click(450, 925, 'left')
 
         if i % 5 == 2:
             # print("卖怪")
             x = random.randint(450, 1400)
             y = random.randint(700, 800)
             print("卖怪 " + str(x) + " " + str(y))
-            auto.moveTo(x, y, tween=auto.linear)
             auto.mouseDown(x=x, y=y, button='left')
-            auto.mouseUp(x=x, y=y+160, button='left', duration=1)
-            time.sleep(1)
-
+            auto.mouseUp(x=x, y=y+180, button='left', duration=1)
 
         if i % 5 == 1:
-
             x = random.randint(500, 1400)
             y = random.randint(900, 1000)
             print("买牌 " + str(x) + " " + str(y))
-            auto.moveTo(x, y)
-            time.sleep(1)
-            auto.mouseDown(x=x, y=y, button='left')
-            auto.mouseUp(x=x, y=y, button='left', duration=1)
-            time.sleep(1)
+            on_click(x, y, 'left')
 
         if i % 5 == 0:
-
             x = random.randint(800, 1300)
             y = random.randint(200, 700)
             print("走走 " + str(x) + " " + str(y))
-            auto.moveTo(x, y)
-            time.sleep(1)
-            auto.mouseDown(x=x, y=y, button='right')
-            auto.mouseUp(x=x, y=y, button='right', duration=1)
-            time.sleep(1)
-
-        if i % 300 == 0:
-            weapons = [(340, 751), (379, 725), (357, 695), (395, 666), (445, 666), (376, 642), (427, 642), (477, 642), (384, 608), (435, 604)]
-            chesses = [(962, 668), (915, 563), (960, 497), (1019, 577), (1085, 653), (1127,569), (1073, 509), (1208, 644)]
-            for weapon in weapons:
-                for chess in chesses:
-                    auto.mouseDown(x=weapon[0], y=weapon[1], button='left')
-                    auto.mouseUp(x=chess[0], y=chess[1], button='left',duration=0.5)
+            on_click(x, y, 'right')
 
 
-    return
-
-if __name__ == "__main__":
+def game():
     i = 1
     while True:
-        game(i)
+
+        room_start()
+        if INGAME == 0:
+            room_accept()
+        room_end()
+        draft_stage('assert/1-1Tag.bmp')
+        draft_stage('assert/2-4Tag.bmp')
+        ff_stage('assert/3-4Tag.bmp')
+        in_game_stage(i)
         i += 1
         print(i)
+
+
+if __name__ == '__main__':
+    time.sleep(5)
+    game()
