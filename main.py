@@ -99,6 +99,12 @@ def in_game_stage(i):
             on_click(x, y, 'right')
 
 
+def room_ok():
+    picture = auto.locateOnScreen('assert/okTag.png')
+    if picture is not None:
+        auto.moveTo(picture)
+        auto.click(clicks=2, interval=1)
+
 def game():
     i = 1
     while True:
@@ -107,9 +113,10 @@ def game():
         if INGAME == 0:
             room_accept()
         room_end()
-        draft_stage('assert/1-1Tag.bmp')
-        draft_stage('assert/2-4Tag.bmp')
-        ff_stage('assert/3-4Tag.bmp')
+        room_ok()
+        draft_stage('assert/inGame.png')
+        draft_stage('assert/inGame.png')
+        ff_stage('assert/3-4Tag.png')
         in_game_stage(i)
         i += 1
         print(i)
