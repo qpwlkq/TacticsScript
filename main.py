@@ -4,18 +4,18 @@ import random
 
 
 TIMES = 0
-ROOMSTART = 0
-ROOMACCEPT = 0
-STAGE1_1 = 0
-STAGE2_4 = 0
 INGAME = 0
 
+
 def clear_par():
-    global TIMES
+    global TIMES, INGAME
     TIMES += 1
+    INGAME = 0
     print("已完成 " + str(TIMES) + ' 局')
 
 
+# 模拟鼠标操作
+# x坐标，y坐标，左右键
 def on_click(x, y, button):
     auto.mouseDown(x=x, y=y, button=button)
     auto.mouseUp(x=x, y=y, button=button, duration=1)
@@ -23,23 +23,40 @@ def on_click(x, y, button):
     auto.mouseUp(x=x, y=y, button=button, duration=1)
 
 
+# 房间内等待开局
 def room_start():
-    global INGAME
     picture = auto.locateOnScreen('assert/roomStart.png')
     if picture is not None:
-        INGAME = 0
         print("点击寻找对局")
         auto.moveTo(picture)
         auto.click(clicks=2, interval=1)
 
 
+# 开局后等待接收
 def room_accept():
     on_click(952, 715, 'left')
 
 
-def draft_stage(stage):
+def room_ok():
+    picture = auto.locateOnScreen('assert/okTag.png')
+    if picture is not None:
+        auto.moveTo(picture)
+        auto.click(clicks=2, interval=1)
+
+
+# # 结束显示下一局
+# def room_end():
+#     picture = auto.locateOnScreen('assert/roomEnd.png')
+#     if picture is not None:
+#         print("点击再来一盘")
+#         auto.moveTo(picture)
+#         auto.click(clicks=2, interval=1)
+
+
+# 选秀
+def draft_stage():
     global INGAME
-    picture = auto.locateOnScreen(stage)
+    picture = auto.locateOnScreen('assert/inGame.png')
     if picture is not None:
         INGAME = 1
         x = random.randint(800, 1300)
@@ -48,24 +65,15 @@ def draft_stage(stage):
         print("走走 " + str(x) + " " + str(y))
 
 
-def room_end():
-    picture = auto.locateOnScreen('assert/roomEnd.png')
-    if picture is not None:
-        print("点击再来一盘")
-        auto.moveTo(picture)
-        auto.click(clicks=2, interval=1)
-        clear_par()
-
-
-def ff_stage(stage):
-    global INGAME
-    picture = auto.locateOnScreen(stage)
+# 点击投降
+def ff_stage():
+    picture = auto.locateOnScreen('assert/3-4Tag.png')
     if picture is not None:
         print("准备认输")
         on_click(1902, 851, 'left')
         on_click(759, 856, 'left')
         on_click(856, 476, 'left')
-        INGAME = 0
+        clear_par()
 
 
 def in_game_stage(i):
@@ -74,6 +82,7 @@ def in_game_stage(i):
     picture = auto.locateOnScreen('assert/inGameTag.bmp')
     if picture is not None:
         INGAME = 1
+
         if i % 20 == 3:
             print("升级")
             on_click(450, 925, 'left')
@@ -99,27 +108,24 @@ def in_game_stage(i):
             on_click(x, y, 'right')
 
 
-def room_ok():
-    picture = auto.locateOnScreen('assert/okTag.png')
-    if picture is not None:
-        auto.moveTo(picture)
-        auto.click(clicks=2, interval=1)
+
+
 
 def game():
     i = 1
     while True:
-
-        room_start()
         if INGAME == 0:
+            room_start()
             room_accept()
-        room_end()
-        room_ok()
-        draft_stage('assert/inGame.png')
-        draft_stage('assert/inGame.png')
-        ff_stage('assert/3-4Tag.png')
-        in_game_stage(i)
+            room_ok()
+            draft_stage()
+        if INGAME == 1:
+            draft_stage()
+            ff_stage()
+            in_game_stage(i)
         i += 1
-        print(i)
+        if i % 10 == 0:
+            print(i)
 
 
 if __name__ == '__main__':
