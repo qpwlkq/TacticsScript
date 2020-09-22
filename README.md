@@ -14,7 +14,7 @@
 
 
 ## 使用方法(每一步都很重要)
-演示视频 [B站链接 https://www.bilibili.com/video/BV1ky4y1y7xh/](https://www.bilibili.com/video/BV1ky4y1y7xh/)  
+演示视频 [B站链接 https://www.bilibili.com/video/BV1654y1y7dY/](https://www.bilibili.com/video/BV1654y1y7dY/)  
 1. 电脑分辨率设置为 1920*1080，100%缩放
 2. 客户端默认分辨率，位置千万不要动
 2. LoL 游戏内分辨率 1920*1080，窗口化
