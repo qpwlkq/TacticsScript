@@ -7,6 +7,8 @@
 3. 选择投降或者不投降，可自定义投降回合
 4. 新增图形界面
 
+![](https://images-cdn.shimo.im/cUuu7MJqvIhNbomJ__original.png)
+
 ## 下载方法
 1. 会github的直接下载（github速度太慢，就不放exe文件了）
 2. 加QQ群 `237967793` 下载
