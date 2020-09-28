@@ -26,7 +26,7 @@
 演示视频 [B站链接 https://www.bilibili.com/video/BV1mV411m7pM/](https://www.bilibili.com/video/BV1mV411m7pM/)  
 
 1. `win10`系统可以稳定运行脚本，不可以使用`win7`系统
-2. 解压脚本压缩包后就不要移动了，确保`***assert文件夹*** `和 `***不要BB.exe***`在同一个文件夹内
+2. 解压脚本压缩包后就不要移动了，确保![](https://images-cdn.shimo.im/Ds0YZ83tTAyhsiAw__original.png)和 ![](https://images-cdn.shimo.im/MOA4jPiEkWM5SD30__original.png)在同一个文件夹内
 3. 电脑分辨率设置为 `1920*1080`，`100%`缩放
 4. LOL客户端默认`1280*720`分辨率，位置千万不要动
 5. LoL 游戏内分辨率 `1920*1080`，窗口化
